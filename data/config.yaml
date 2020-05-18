@@ -1,0 +1,3 @@
+sysctls:
+  - key: "net.core.somaxconn"
+    value: "1024"
