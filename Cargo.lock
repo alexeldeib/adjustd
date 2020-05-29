@@ -5,6 +5,7 @@ name = "adjustd"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "eyre",
  "serde",
  "serde_yaml",
 ]
@@ -20,6 +21,21 @@ name = "dtoa"
 version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4358a9e11b9a09cf52383b451b49a169e8d797b68aa02301ff586d70d9661ea3"
+
+[[package]]
+name = "eyre"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d0fd0cbbcb0f8f25b9d9aada7235e1122c1d1a443293ee9efce58a579f9f5c25"
+dependencies = [
+ "indenter",
+]
+
+[[package]]
+name = "indenter"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0bd112d44d9d870a6819eb505d04dd92b5e4d94bb8c304924a0872ae7016fb5"
 
 [[package]]
 name = "linked-hash-map"
