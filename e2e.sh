@@ -16,4 +16,4 @@ boot
 wait_for_boot
 sync_file target/debug/adjustd /home/ubuntu/adjustd
 vm_ssh sudo mv /home/ubuntu/adjustd /usr/local/bin/adjustd
-vm_ssh ls /usr/local/bin | grep adjust
+vm_ssh du -b /usr/local/bin/adjustd | numfmt --to=iec
