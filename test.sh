@@ -18,7 +18,7 @@ function cleanup() {
         vm_ssh sudo shutdown now || true
         sleep 2
         kill "$PID" || true
-        rm -f "${TMPDIR}"
+        rm -rf "${TMPDIR}"
     fi
 }
 
