@@ -35,7 +35,7 @@ function boot() {
         -enable-kvm \
         -smp cpus=2 \
         -m 4096 \
-        -drive file="${TMPDIR}/bionic.img",if=virtio,cache=off,aio=native \
+        -drive file="${TMPDIR}/bionic.img",format=raw,if=virtio,cache=off,aio=native \
         -drive file="${TMPDIR}/userdata.img",format=raw,if=virtio \
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
