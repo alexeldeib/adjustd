@@ -40,7 +40,7 @@ function boot() {
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
         -display none \
-        -serial mon:stdio \
+        # -serial mon:stdio \ # UNCOMMENT for debugging. Will print all VM output.
         -device virtio-rng-pci \
         -device virtio-balloon & 
 }
