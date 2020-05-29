@@ -7,7 +7,7 @@ SSH_OPTS="-o PasswordAuthentication=no -o UserKnownHostsFile=/dev/null -o Strict
 TMPDIR="$(mktemp -d)"
 
 function vm_ssh() {
-    ssh -i "${TMPDIR}/sshkey" -p "2222" ubuntu@localhost $SSH_OPTS "$@"
+    ssh -i "${TMPDIR}/sshkey" -p "2222" $SSH_OPTS ubuntu@localhost "$@"
 }
 
 function cleanup() {
@@ -84,4 +84,9 @@ ssh_authorized_keys:
 $CLOUD_CONFIG
 EOF
     cloud-localds "${TMPDIR}/userdata.img" "${TMPDIR}/userdata"
+}
+
+function sync_file() {
+    echo "Copying $1 to $2 on target host"
+    rsync -avz -e "ssh -i ${TMPDIR}/sshkey $SSH_OPTS -p 2222" "$1" "ubuntu@localhost:$2"
 }
