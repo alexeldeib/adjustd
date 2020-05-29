@@ -7,7 +7,7 @@ pr:
     include: ["*"]
 
 jobs:
-- job: build + test
+- job: build_and_test
   pool: ace-test
   timeoutInMinutes: 360 # 6 hours
   workspace:
