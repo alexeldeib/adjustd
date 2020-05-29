@@ -15,3 +15,6 @@ jobs:
   steps:
   - bash: |
       ./test.sh
+  - bash: | 
+      df -h
+    condition: always()
