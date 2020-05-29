@@ -74,8 +74,6 @@ function setup() {
     sudo apt update && sudo apt install -y qemu-kvm cloud-image-utils
     ssh-keygen -n 4096 -t rsa -f "${TMPDIR}/sshkey" -q -N "" <<< y > /dev/null
     CLOUD_CONFIG="#cloud-config
-#password: root
-#chpasswd: { expire: False }
 ssh_pwauth: False
 ssh_authorized_keys:
 - $(cat ${TMPDIR}/sshkey.pub)
