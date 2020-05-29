@@ -20,5 +20,5 @@ vm_ssh sudo mv /home/ubuntu/adjustd /usr/local/bin/adjustd
 vm_ssh sudo mkdir -p /usr/local/bin/data
 vm_ssh sudo mv /home/ubuntu/config.yaml /usr/local/bin/data/config.yaml
 vm_ssh "ls -l /usr/local/bin; ls -l /usr/local/bin/adjustd"
-vm_ssh bash -c "cd /usr/local/bin; chmod +x ./adjustd; ./adjustd"
+vm_ssh "cd /usr/local/bin; chmod +x ./adjustd; ./adjustd"
 vm_ssh du -b /usr/local/bin/adjustd | numfmt --to=iec
