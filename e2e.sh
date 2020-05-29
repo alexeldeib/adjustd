@@ -14,5 +14,6 @@ just
 setup
 boot
 wait_for_boot
-sync_file target/debug/adjustd /usr/local/bin/adjustd
+sync_file target/debug/adjustd /home/ubuntu/adjustd
+vm_ssh sudo mv /home/ubuntu/adjustd /usr/local/bin/adjustd
 vm_ssh ls /usr/local/bin | grep adjust
