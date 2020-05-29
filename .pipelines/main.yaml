@@ -6,8 +6,6 @@ pr:
   branches:
     include: ["*"]
 
-
-
 jobs:
 - job: e2e
   pool: ace-test

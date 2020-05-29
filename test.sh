@@ -6,36 +6,37 @@ set -o pipefail
 set -x
 
 SSH_OPTS="-o PasswordAuthentication=no -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=5"
+TMPDIR="$(mktemp -d)"
 
 function vm_ssh() {
-    ssh -i /tmp/sshkey -p "2222" ubuntu@localhost $SSH_OPTS "$@"
+    ssh -i "${TMPDIR}/sshkey" -p "2222" ubuntu@localhost $SSH_OPTS "$@"
 }
 
 function cleanup() {
-    if [ -e /tmp/qemu-kvm.id ]; then
-        PID=$(cat /tmp/qemu-kvm.id)
+    if [ -e "${TMPDIR}/qemu-kvm.id" ]; then
+        PID=$(cat "${TMPDIR}/qemu-kvm.id")
         vm_ssh sudo shutdown now || true
         sleep 2
         kill "$PID" || true
-        rm -f /tmp/qemu-kvm.id
+        rm -f "${TMPDIR}"
     fi
 }
 
 function boot() {
     echo "Cleaning up old VM"
-    if [ -e /tmp/qemu-kvm.id ]; then
-        PID=$(cat /tmp/qemu-kvm.id)
+    if [ -e "${TMPDIR}/qemu-kvm.id" ]; then
+        PID=$(cat "${TMPDIR}/qemu-kvm.id")
         kill "$PID" || true
-        rm -f /tmp/qemu-kvm.id
+        rm -f "${TMPDIR}/qemu-kvm.id"
     fi
     echo "Booting VM"
     qemu-system-x86_64 \
-        -pidfile /tmp/qemu-kvm.id \
+        -pidfile "${TMPDIR}/qemu-kvm.id" \
         -enable-kvm \
         -smp cpus=2 \
         -m 4096 \
-        -drive file=bionic.img,if=virtio \
-        -drive file=userdata.img,format=raw,if=virtio \
+        -drive file="${TMPDIR}/bionic.img",if=virtio \
+        -drive file="${TMPDIR}/userdata.img",format=raw,if=virtio \
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
         -display none \
@@ -64,24 +65,24 @@ function wait_for_boot() {
 
 function add_file() {
     echo "Copying $1 to $2 on target host"
-    scp -i /tmp/sshkey -P 2222 $SSH_OPTS "$1" "ubuntu@localhost:$2"
+    scp -i ${TMPDIR}/sshkey -P 2222 $SSH_OPTS "$1" "ubuntu@localhost:$2"
 }
 
 function setup() {
-    wget -O bionic.img https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+    wget -O "${TMPDIR}/bionic.img" https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
     sudo apt update && sudo apt install -y qemu-kvm cloud-image-utils
-    ssh-keygen -n 4096 -t rsa -f /tmp/sshkey -q -N "" <<< y > /dev/null
+    ssh-keygen -n 4096 -t rsa -f "${TMPDIR}/sshkey" -q -N "" <<< y > /dev/null
     CLOUD_CONFIG="#cloud-config
 password: root
 chpasswd: { expire: False }
 ssh_pwauth: True
 ssh_authorized_keys:
-- $(cat /tmp/sshkey.pub)
+- $(cat ${TMPDIR}/sshkey.pub)
 "
-    cat > userdata <<EOF
+    cat > "${TMPDIR}/userdata" <<EOF
 $CLOUD_CONFIG
 EOF
-    cloud-localds userdata.img userdata
+    cloud-localds "${TMPDIR}/userdata.img" "${TMPDIR}/userdata"
 }
 
 trap cleanup EXIT
