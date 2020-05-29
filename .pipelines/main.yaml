@@ -13,13 +13,13 @@ jobs:
   workspace:
     clean: all
   steps:
-  - displayName: build
-    bash: |
+  - bash: |
       ./e2e.sh
-  - displayName: test
-    bash: |
+    displayName: build
+  - bash: |
       ./test.sh
-  - displayName: debug
-    condition: always()
-    bash: | 
+    displayName: test    
+  - bash: | 
       df -h
+    displayName: debug
+    condition: always()
