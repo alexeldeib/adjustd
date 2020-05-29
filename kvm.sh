@@ -35,7 +35,7 @@ function boot() {
         -enable-kvm \
         -smp cpus=2 \
         -m 4096 \
-        -drive file="${TMPDIR}/bionic.img",if=virtio \
+        -drive file="${TMPDIR}/bionic.img",if=virtio,io=native \
         -drive file="${TMPDIR}/userdata.img",format=raw,if=virtio \
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
@@ -70,6 +70,7 @@ function add_file() {
 
 function setup() {
     wget -O "${TMPDIR}/bionic.img" https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+    qemu-img convert -f qcow2 -O raw "${TMPDIR}/bionic.img" "${TMPDIR}/bionic.img"
     sudo apt update && sudo apt install -y qemu-kvm cloud-image-utils
     ssh-keygen -n 4096 -t rsa -f "${TMPDIR}/sshkey" -q -N "" <<< y > /dev/null
     CLOUD_CONFIG="#cloud-config
