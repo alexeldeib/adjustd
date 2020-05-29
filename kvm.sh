@@ -69,8 +69,8 @@ function add_file() {
 }
 
 function setup() {
-    wget -O "${TMPDIR}/bionic.img" https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
-    qemu-img convert -f qcow2 -O raw "${TMPDIR}/bionic.img" "${TMPDIR}/bionic.img"
+    wget -O "${TMPDIR}/bionic-qcow.img" https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+    qemu-img convert -f qcow2 -O raw "${TMPDIR}/bionic-qcow.img" "${TMPDIR}/bionic.img"
     sudo apt update && sudo apt install -y qemu-kvm cloud-image-utils
     ssh-keygen -n 4096 -t rsa -f "${TMPDIR}/sshkey" -q -N "" <<< y > /dev/null
     CLOUD_CONFIG="#cloud-config
