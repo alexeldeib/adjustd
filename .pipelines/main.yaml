@@ -7,7 +7,7 @@ pr:
     include: ["*"]
 
 jobs:
-- job: e2e
+- job: build + test
   pool: ace-test
   timeoutInMinutes: 360 # 6 hours
   workspace:
@@ -15,10 +15,7 @@ jobs:
   steps:
   - bash: |
       ./e2e.sh
-    displayName: build
-  - bash: |
-      ./test.sh
-    displayName: test    
+    displayName: run 
   - bash: | 
       df -h
     displayName: debug
