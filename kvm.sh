@@ -40,7 +40,6 @@ function boot() {
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
         -display none \
-        -serial mon:stdio \
         -device virtio-rng-pci \
         -device virtio-balloon & 
 }
