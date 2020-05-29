@@ -30,6 +30,8 @@ function boot() {
         rm -f "${TMPDIR}/qemu-kvm.id"
     fi
     echo "Booting VM"
+    # Add '-serial mon:stdio' below for debugging.
+    # it will print all VM output to stdio from the background.
     qemu-system-x86_64 \
         -pidfile "${TMPDIR}/qemu-kvm.id" \
         -enable-kvm \
@@ -40,7 +42,7 @@ function boot() {
         -net nic,model=virtio \
         -net user,hostfwd=tcp::2222-:22 \
         -display none \
-        # -serial mon:stdio \ # UNCOMMENT for debugging. Will print all VM output.
+        -serial mon:stdio \
         -device virtio-rng-pci \
         -device virtio-balloon & 
 }
