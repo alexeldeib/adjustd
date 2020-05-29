@@ -1,0 +1,19 @@
+trigger:
+  branches:
+    include: ["*"]
+
+pr:
+  branches:
+    include: ["*"]
+
+
+
+jobs:
+- job: e2e
+  pool: ace-test
+  timeoutInMinutes: 360 # 6 hours
+  workspace:
+    clean: all
+  steps:
+  - bash: |
+      ./test.sh
