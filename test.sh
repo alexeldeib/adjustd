@@ -92,5 +92,6 @@ trap cleanup SIGINT
 setup
 boot
 wait_for_boot
+echo "foobar" > boo.txt
 add_file blah.txt /home/ubuntu/boo.txt
 vm_ssh sudo mv /home/ubuntu/boo.txt /etc/boo.txt
