@@ -8,7 +8,8 @@ pr:
 
 jobs:
 - job: build_and_test
-  pool: ubuntu-latest
+  pool:
+    vmImage: ubuntu-latest
   timeoutInMinutes: 360 # 6 hours
   workspace:
     clean: all
