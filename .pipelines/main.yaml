@@ -8,7 +8,7 @@ pr:
 
 jobs:
 - job: build_and_test
-  pool: ace-test
+  pool: ubuntu-latest
   timeoutInMinutes: 360 # 6 hours
   workspace:
     clean: all
